@@ -2,6 +2,7 @@ package mate.academy.dao;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.IntStream;
 import mate.academy.db.Storage;
 import mate.academy.lib.Dao;
 import mate.academy.model.Manufacturer;
@@ -28,15 +29,14 @@ public class ManufacturerDaoImpl implements ManufacturerDao {
 
     @Override
     public Manufacturer update(Manufacturer manufacturer) {
-        Manufacturer oldManufacture = get(manufacturer.getId()).orElse(null);
-        int index = Storage.manufacturers.indexOf(oldManufacture);
-        Storage.manufacturers.set(index, manufacturer);
-        return get(manufacturer.getId()).orElse(null);
+        IntStream.range(0, Storage.manufacturers.size())
+                .filter(s -> Storage.manufacturers.get(s).getId().equals(manufacturer.getId()))
+                .forEach(s -> Storage.manufacturers.set(s, manufacturer));
+        return manufacturer;
     }
 
     @Override
     public boolean delete(Long id) {
-        Manufacturer manufacturer = get(id).orElse(null);
-        return Storage.manufacturers.remove(manufacturer);
+        return Storage.manufacturers.removeIf(m -> m.getId().equals(id));
     }
 }
