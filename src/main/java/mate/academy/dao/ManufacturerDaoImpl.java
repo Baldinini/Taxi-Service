@@ -28,17 +28,15 @@ public class ManufacturerDaoImpl implements ManufacturerDao {
 
     @Override
     public Manufacturer update(Manufacturer manufacturer) {
-        get(manufacturer.getId()).get().setCountry(manufacturer.getCountry());
-        get(manufacturer.getId()).get().setName(manufacturer.getName());
-        return get(manufacturer.getId()).get();
+        Manufacturer oldManufacture = get(manufacturer.getId()).orElse(null);
+        int index = Storage.manufacturers.indexOf(oldManufacture);
+        Storage.manufacturers.set(index, manufacturer);
+        return get(manufacturer.getId()).orElse(null);
     }
 
     @Override
     public boolean delete(Long id) {
-        if (get(id).isPresent()) {
-            Storage.manufacturers.remove(get(id).get());
-            return true;
-        }
-        return false;
+        Manufacturer manufacturer = get(id).orElse(null);
+        return Storage.manufacturers.remove(manufacturer);
     }
 }
