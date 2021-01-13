@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
+import mate.academy.exception.DataProcessingException;
 import mate.academy.lib.Injector;
 import mate.academy.model.Car;
 import mate.academy.model.Driver;
@@ -115,8 +116,8 @@ public class Main {
         try (Connection connection = ConnectionUtil.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(query);
             statement.execute();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException e) {
+            throw new DataProcessingException("Can't truncate table manufacturers", e);
         }
     }
 }
