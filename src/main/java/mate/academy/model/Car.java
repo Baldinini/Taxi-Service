@@ -1,5 +1,6 @@
 package mate.academy.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Car {
@@ -11,6 +12,7 @@ public class Car {
     public Car(String model, Manufacturer manufacturer) {
         this.model = model;
         this.manufacturer = manufacturer;
+        drivers = new ArrayList<>();
     }
 
     public Long getId() {
@@ -43,5 +45,15 @@ public class Car {
 
     public void setDrivers(List<Driver> drivers) {
         this.drivers = drivers;
+    }
+
+    @Override
+    public String toString() {
+        return "Car{"
+                + "id=" + id
+                + ", model='" + model + '\''
+                + ", manufacturer=" + manufacturer
+                + ", drivers=" + drivers
+                + '}';
     }
 }
