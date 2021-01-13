@@ -1,9 +1,7 @@
 package mate.academy.service.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 import mate.academy.dao.CarDao;
-import mate.academy.dao.DriverDao;
 import mate.academy.lib.Inject;
 import mate.academy.lib.Service;
 import mate.academy.model.Car;
@@ -14,8 +12,6 @@ import mate.academy.service.CarService;
 public class CarServiceImpl implements CarService {
     @Inject
     private CarDao carDao;
-    @Inject
-    private DriverDao driverDao;
 
     @Override
     public Car create(Car car) {
@@ -24,7 +20,7 @@ public class CarServiceImpl implements CarService {
 
     @Override
     public Car get(Long id) {
-        return carDao.get(id);
+        return carDao.get(id).get();
     }
 
     @Override
@@ -44,10 +40,7 @@ public class CarServiceImpl implements CarService {
 
     @Override
     public void addDriverToCar(Driver driver, Car car) {
-        if (!driverDao.getAll().contains(driver)) {
-            driverDao.create(driver);
-        }
-        List<Driver> drivers = car.getDrivers() != null ? car.getDrivers() : new ArrayList<>();
+        List<Driver> drivers = car.getDrivers();
         drivers.add(driver);
         car.setDrivers(drivers);
         carDao.update(car);
@@ -55,12 +48,8 @@ public class CarServiceImpl implements CarService {
 
     @Override
     public void removeDriverFromCar(Driver driver, Car car) {
-        if (car.getDrivers() != null && car.getDrivers().contains(driver)) {
-            car.getDrivers().remove(driver);
-            carDao.update(car);
-        } else {
-            System.out.println("Car doesn't have this driver: " + driver);
-        }
+        car.getDrivers().removeIf(d -> car.getDrivers().contains(driver));
+        carDao.update(car);
     }
 
     @Override

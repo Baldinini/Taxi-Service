@@ -66,7 +66,7 @@ public class Main {
 
         System.out.println("After deletion and updating");
         driverService.getAll().forEach(System.out::println);
-        System.out.println(driverService.get(3L));
+        System.out.println(driverService.get(1L));
 
         CarService carService = (CarService) injector.getInstance(CarService.class);
         Car carAudiR8 = new Car("AudiR8", manufacturerAudi);
@@ -83,6 +83,7 @@ public class Main {
         Car updateCarMercedes = carService.get(2L);
         updateCarMercedes.setModel("Mercedes-AMG");
         Driver driverKate = new Driver("Kate", "AA147896");
+        driverService.create(driverKate);
 
         carService.addDriverToCar(driverKate, carAudiR8);
         carService.addDriverToCar(driverKate, carToyota);
