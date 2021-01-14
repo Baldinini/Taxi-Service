@@ -7,18 +7,13 @@ import java.util.Properties;
 import mate.academy.exception.DataProcessingException;
 
 public class ConnectionUtil {
-    static {
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException("Can't find MySQL Driver", e);
-        }
-    }
+    private static final String ROOT = "root";
+    private static final String PASSWORD = "1234";
 
     public static Connection getConnection() {
         Properties dbProperties = new Properties();
-        dbProperties.put("user", "root");
-        dbProperties.put("password", "1234");
+        dbProperties.put("user", ROOT);
+        dbProperties.put("password", PASSWORD);
         String url = "jdbc:mysql://localhost:3306/taxi_service?serverTimezone=UTC";
 
         try {

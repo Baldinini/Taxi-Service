@@ -1,10 +1,6 @@
 package mate.academy;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.util.List;
-import mate.academy.exception.DataProcessingException;
 import mate.academy.lib.Injector;
 import mate.academy.model.Car;
 import mate.academy.model.Driver;
@@ -12,7 +8,6 @@ import mate.academy.model.Manufacturer;
 import mate.academy.service.CarService;
 import mate.academy.service.DriverService;
 import mate.academy.service.ManufacturerService;
-import mate.academy.util.ConnectionUtil;
 
 public class Main {
     private static final Injector injector = Injector.getInstance("mate.academy");
@@ -20,7 +15,6 @@ public class Main {
     private static final Long ID_FOR_DELETION = 3L;
 
     public static void main(String[] args) {
-        truncate();
         ManufacturerService manufacturerService =
                 (ManufacturerService) injector.getInstance(ManufacturerService.class);
         Manufacturer manufacturerBmv = new Manufacturer("BMV", "Bavaria");
@@ -109,16 +103,6 @@ public class Main {
         System.out.println("Lists cars by drivers");
         carByDriverKate.forEach(System.out::println);
         carByDriverPetro.forEach(System.out::println);
-    }
-
-    private static void truncate() {
-        String query = "TRUNCATE TABLE manufacturers;";
-        try (Connection connection = ConnectionUtil.getConnection()) {
-            PreparedStatement statement = connection.prepareStatement(query);
-            statement.execute();
-        } catch (SQLException e) {
-            throw new DataProcessingException("Can't truncate table manufacturers", e);
-        }
     }
 }
 
