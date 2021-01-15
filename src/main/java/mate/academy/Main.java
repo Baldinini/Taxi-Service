@@ -13,7 +13,6 @@ public class Main {
     private static final Injector injector = Injector.getInstance("mate.academy");
     private static final Long ID_FOR_UPDATING = 2L;
     private static final Long ID_FOR_DELETION = 3L;
-    private static final Long WRONG_ID = 10L;
 
     public static void main(String[] args) {
         ManufacturerService manufacturerService =
@@ -32,16 +31,13 @@ public class Main {
 
         Manufacturer updateMercedes = manufacturerService.get(ID_FOR_UPDATING);
         updateMercedes.setName("MercedesBenz");
+        manufacturerService.update(updateMercedes);
 
         System.out.println("After updating");
         manufacturerService.getAll().forEach(System.out::println);
 
-        manufacturerService.update(updateMercedes);
-
         boolean deleteRight = manufacturerService.delete(ID_FOR_DELETION);
-        boolean deleteWrong = manufacturerService.delete(WRONG_ID);
         System.out.println(deleteRight);
-        System.out.println(deleteWrong);
 
         System.out.println("After deletion");
         manufacturerService.getAll().forEach(System.out::println);
@@ -109,3 +105,4 @@ public class Main {
         carByDriverPetro.forEach(System.out::println);
     }
 }
+
