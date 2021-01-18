@@ -32,7 +32,6 @@ public class CarDaoJdbc implements CarDao {
             if (resultSet.next()) {
                 car.setId(resultSet.getObject(1, Long.class));
             }
-            createCarsDrivers(car);
             return car;
         } catch (SQLException e) {
             throw new DataProcessingException("Can't create car: " + car, e);
