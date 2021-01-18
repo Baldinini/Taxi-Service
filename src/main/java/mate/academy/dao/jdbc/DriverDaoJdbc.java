@@ -43,18 +43,12 @@ public class DriverDaoJdbc implements DriverDao {
         String getByIdQuery = "SELECT * FROM drivers "
                 + "WHERE driver_id = ? AND is_deleted = FALSE;";
         Driver driver = null;
-
         try (Connection connection = ConnectionUtil.getConnection();
                 PreparedStatement statement = connection.prepareStatement(getByIdQuery)) {
             statement.setLong(1, id);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                Long driverId = resultSet.getObject("driver_id", Long.class);
-                String driverName = resultSet.getObject("driver_name", String.class);
-                String licenceNumber =
-                        resultSet.getObject("licence_number", String.class);
-                driver = new Driver(driverName, licenceNumber);
-                driver.setId(driverId);
+                driver = getDriver(resultSet);
             }
         } catch (SQLException e) {
             throw new DataProcessingException("Can't get driver by id " + id, e);
@@ -71,8 +65,7 @@ public class DriverDaoJdbc implements DriverDao {
                 PreparedStatement statement = connection.prepareStatement(getAllQuery)) {
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                Driver driver = get(resultSet.getObject("driver_id", Long.class)).get();
-                drivers.add(driver);
+                drivers.add(getDriver(resultSet));
             }
         } catch (SQLException e) {
             throw new DataProcessingException("Can't get drivers list", e);
@@ -110,6 +103,16 @@ public class DriverDaoJdbc implements DriverDao {
         } catch (SQLException e) {
             throw new DataProcessingException("Can't delete driver by id " + id, e);
         }
+    }
+
+    private Driver getDriver(ResultSet resultSet) throws SQLException {
+        Long driverId = resultSet.getObject("driver_id", Long.class);
+        String driverName = resultSet.getObject("driver_name", String.class);
+        String licenceNumber =
+                resultSet.getObject("licence_number", String.class);
+        Driver driver = new Driver(driverName, licenceNumber);
+        driver.setId(driverId);
+        return driver;
     }
 }
 
