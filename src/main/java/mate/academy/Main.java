@@ -87,7 +87,7 @@ public class Main {
         carService.addDriverToCar(driverKate, updateCarMercedes);
         carService.addDriverToCar(driverKate, carToyota);
         carService.addDriverToCar(driverOlia, carToyota);
-        carService.addDriverToCar(driverOlia,carMercedesBenz);
+        carService.addDriverToCar(driverOlia, carMercedesBenz);
 
         System.out.println("Cars after adding drivers and updating");
         carService.getAll().forEach(System.out::println);
@@ -101,10 +101,10 @@ public class Main {
         System.out.println("Deletion car from cars table: " + delete);
 
         List<Car> carByDriverKate = carService.getAllByDriver(driverKate.getId());
-        List<Car> carsByDriverOlia = carService.getAllByDriver(driverOlia.getId());
-
         System.out.println("Lists cars by driver Kate");
         carByDriverKate.forEach(System.out::println);
+
+        List<Car> carsByDriverOlia = carService.getAllByDriver(driverOlia.getId());
         System.out.println("Lists cars by driver Olia");
         carsByDriverOlia.forEach(System.out::println);
     }
