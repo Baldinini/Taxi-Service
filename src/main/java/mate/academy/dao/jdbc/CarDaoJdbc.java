@@ -68,8 +68,7 @@ public class CarDaoJdbc implements CarDao {
                 PreparedStatement statement = connection.prepareStatement(getAllCar)) {
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                Car car = getCar(resultSet);
-                cars.add(car);
+                cars.add(getCar(resultSet));
             }
         } catch (SQLException e) {
             throw new DataProcessingException("Can't get list of car", e);
@@ -123,8 +122,7 @@ public class CarDaoJdbc implements CarDao {
             statement.setLong(1, driverId);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                Car car = getCar(resultSet);
-                cars.add(car);
+                cars.add(getCar(resultSet));
             }
         } catch (SQLException e) {
             throw new DataProcessingException("Can't get list of cars by driverId: " + driverId, e);
