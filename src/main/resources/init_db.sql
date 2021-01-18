@@ -1,28 +1,28 @@
 CREATE SCHEMA `taxi_service` DEFAULT CHARACTER SET utf8 ;
 CREATE TABLE `taxi_service`.`manufacturers` (
-    `manufacturer_id` BIGINT NOT NULL AUTO_INCREMENT,
-    `manufacturer_name` VARCHAR(225) NOT NULL,
-    `manufacturer_country` VARCHAR(225) NOT NULL,
+    `id` BIGINT NOT NULL AUTO_INCREMENT,
+    `name` VARCHAR(225) NOT NULL,
+    `country` VARCHAR(225) NOT NULL,
     `is_deleted` BIT NOT NULL DEFAULT 0,
-PRIMARY KEY (`manufacturer_id`));
+PRIMARY KEY (`id`));
 
 CREATE TABLE `taxi_service`.`drivers` (
-     `driver_id` BIGINT(11) NOT NULL AUTO_INCREMENT,
-     `driver_name` VARCHAR(225) NOT NULL,
+     `id` BIGINT(11) NOT NULL AUTO_INCREMENT,
+     `name` VARCHAR(225) NOT NULL,
      `licence_number` VARCHAR(225) NOT NULL,
      `is_deleted` TINYINT NOT NULL DEFAULT 0,
-PRIMARY KEY (`driver_id`));
+PRIMARY KEY (`id`));
 
 CREATE TABLE `taxi_service`.`cars` (
-      `car_id` BIGINT(11) NOT NULL AUTO_INCREMENT,
-      `car_model` VARCHAR(225) NOT NULL,
+      `id` BIGINT(11) NOT NULL AUTO_INCREMENT,
+      `model` VARCHAR(225) NOT NULL,
       `is_deleted` TINYINT NOT NULL DEFAULT 0,
       `manufacturer_id` BIGINT(11) NOT NULL,
-PRIMARY KEY (`car_id`),
+PRIMARY KEY (`id`),
    INDEX `cars_manufacturer_fk_idx` (`manufacturer_id` ASC) VISIBLE,
    CONSTRAINT `cars_manufacturer_fk`
    FOREIGN KEY (`manufacturer_id`)
-         REFERENCES `taxi_service`.`manufacturers` (`manufacturer_id`)
+         REFERENCES `taxi_service`.`manufacturers` (`id`)
          ON DELETE NO ACTION
          ON UPDATE NO ACTION);
 
@@ -33,11 +33,11 @@ INDEX `cars_id_fk_idx` (`car_id` ASC) VISIBLE,
 INDEX `drivers_id_fk_idx` (`driver_id` ASC) VISIBLE,
 CONSTRAINT `cars_id_fk`
     FOREIGN KEY (`car_id`)
-        REFERENCES `taxi_service`.`cars` (`car_id`)
+        REFERENCES `taxi_service`.`cars` (`id`)
         ON DELETE NO ACTION
         ON UPDATE NO ACTION,
 CONSTRAINT `drivers_id_fk`
     FOREIGN KEY (`driver_id`)
-        REFERENCES `taxi_service`.`drivers` (`driver_id`)
+        REFERENCES `taxi_service`.`drivers` (`id`)
         ON DELETE NO ACTION
         ON UPDATE NO ACTION);

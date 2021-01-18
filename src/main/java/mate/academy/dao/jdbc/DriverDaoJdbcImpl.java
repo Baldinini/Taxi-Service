@@ -15,11 +15,10 @@ import mate.academy.model.Driver;
 import mate.academy.util.ConnectionUtil;
 
 @Dao
-public class DriverDaoJdbc implements DriverDao {
-
+public class DriverDaoJdbcImpl implements DriverDao {
     @Override
     public Driver create(Driver driver) {
-        String createQuery = "INSERT INTO drivers (driver_name, licence_number)"
+        String createQuery = "INSERT INTO drivers (name, licence_number)"
                 + " VALUES (?,?);";
 
         try (Connection connection = ConnectionUtil.getConnection();
@@ -41,7 +40,7 @@ public class DriverDaoJdbc implements DriverDao {
     @Override
     public Optional<Driver> get(Long id) {
         String getByIdQuery = "SELECT * FROM drivers "
-                + "WHERE driver_id = ? AND is_deleted = FALSE;";
+                + "WHERE id = ? AND is_deleted = FALSE;";
         Driver driver = null;
         try (Connection connection = ConnectionUtil.getConnection();
                 PreparedStatement statement = connection.prepareStatement(getByIdQuery)) {
@@ -76,8 +75,8 @@ public class DriverDaoJdbc implements DriverDao {
     @Override
     public Driver update(Driver driver) {
         String updateQuery = "UPDATE drivers "
-                + "SET driver_name = ?, licence_number = ?"
-                + "WHERE driver_id = ? AND is_deleted = FALSE;";
+                + "SET name = ?, licence_number = ?"
+                + "WHERE id = ? AND is_deleted = FALSE;";
 
         try (Connection connection = ConnectionUtil.getConnection();
                 PreparedStatement statement = connection.prepareStatement(updateQuery)) {
@@ -95,7 +94,7 @@ public class DriverDaoJdbc implements DriverDao {
     @Override
     public boolean delete(Long id) {
         String deleteQuery = "UPDATE drivers SET is_deleted = TRUE "
-                + "WHERE driver_id = ?;";
+                + "WHERE id = ?;";
         try (Connection connection = ConnectionUtil.getConnection();
                 PreparedStatement statement = connection.prepareStatement(deleteQuery)) {
             statement.setLong(1, id);
@@ -106,8 +105,8 @@ public class DriverDaoJdbc implements DriverDao {
     }
 
     private Driver getDriver(ResultSet resultSet) throws SQLException {
-        Long driverId = resultSet.getObject("driver_id", Long.class);
-        String driverName = resultSet.getObject("driver_name", String.class);
+        Long driverId = resultSet.getObject("id", Long.class);
+        String driverName = resultSet.getObject("name", String.class);
         String licenceNumber =
                 resultSet.getObject("licence_number", String.class);
         Driver driver = new Driver(driverName, licenceNumber);
