@@ -84,20 +84,16 @@ public class CarDaoJdbcImpl implements CarDao {
     public Car update(Car car) {
         String updateCars = "UPDATE cars SET model = ?, manufacturer_id = ? "
                 + "WHERE id = ? and is_deleted = FALSE;";
-        String deleteCarsDrivers = "DELETE FROM cars_drivers WHERE car_id = ?;";
         try (Connection connection = ConnectionUtil.getConnection();
-                PreparedStatement statement = connection.prepareStatement(updateCars);
-                PreparedStatement statementDelete =
-                        connection.prepareStatement(deleteCarsDrivers)) {
+                PreparedStatement statement = connection.prepareStatement(updateCars)) {
             statement.setString(1, car.getModel());
             statement.setLong(2, car.getManufacturer().getId());
             statement.setLong(3, car.getId());
             statement.executeUpdate();
-            statementDelete.setLong(1, car.getId());
-            statementDelete.executeUpdate();
         } catch (SQLException e) {
             throw new DataProcessingException("Can't update table with this car: " + car, e);
         }
+        deleteCarsDrivers(car);
         createCarsDrivers(car);
         return car;
     }
@@ -176,13 +172,24 @@ public class CarDaoJdbcImpl implements CarDao {
         return drivers;
     }
 
+    private void deleteCarsDrivers(Car car) {
+        String deleteCarsDrivers = "DELETE FROM cars_drivers WHERE car_id = ?;";
+        try (Connection connection = ConnectionUtil.getConnection();
+                PreparedStatement statement = connection.prepareStatement(deleteCarsDrivers)) {
+            statement.setLong(1, car.getId());
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new DataProcessingException("Can't update table cars_drivers by car: " + car, e);
+        }
+    }
+
     private void createCarsDrivers(Car car) {
         String createCarsDrivers = "INSERT INTO cars_drivers (car_id, driver_id) VALUES (?, ?);";
         try (Connection connection = ConnectionUtil.getConnection();
                 PreparedStatement statement = connection.prepareStatement(createCarsDrivers)) {
-            for (int i = 0; i < car.getDrivers().size(); i++) {
+            for (Driver driver : car.getDrivers()) {
                 statement.setLong(1, car.getId());
-                statement.setLong(2, car.getDrivers().get(i).getId());
+                statement.setLong(2, driver.getId());
                 statement.executeUpdate();
             }
         } catch (SQLException e) {

@@ -48,10 +48,12 @@ public class Main {
         Driver driverPetro = new Driver("Petro", "A105326");
         Driver driverOlia = new Driver("Olia", "B532026");
         Driver driverKate = new Driver("Kate", "AA147896");
+        Driver driverAlex = new Driver("Alex", "AS2365DD");
 
         driverService.create(driverKate);
         driverService.create(driverPetro);
         driverService.create(driverOlia);
+        driverService.create(driverAlex);
 
         System.out.println("Drivers");
         driverService.getAll().forEach(System.out::println);
@@ -68,17 +70,17 @@ public class Main {
 
         CarService carService = (CarService) injector.getInstance(CarService.class);
         Car carAudiR8 = new Car("AudiR8", manufacturerAudi);
-        Car carMercedesBenz = new Car("MercedesBenz", manufacturerMercedes);
+        Car carMercedes = new Car("MercedesBenz", manufacturerMercedes);
         Car carToyota = new Car("Toyota C-HR", manufacturerToyota);
 
         carService.create(carAudiR8);
-        carService.create(carMercedesBenz);
+        carService.create(carMercedes);
         carService.create(carToyota);
 
         System.out.println("Cars");
         carService.getAll().forEach(System.out::println);
 
-        Car updateCarMercedes = carService.get(2L);
+        Car updateCarMercedes = carService.get(carMercedes.getId());
         updateCarMercedes.setModel("Mercedes-AMG");
 
         carService.update(updateCarMercedes);
@@ -87,7 +89,8 @@ public class Main {
         carService.addDriverToCar(driverKate, updateCarMercedes);
         carService.addDriverToCar(driverKate, carToyota);
         carService.addDriverToCar(driverOlia, carToyota);
-        carService.addDriverToCar(driverOlia, carMercedesBenz);
+        carService.addDriverToCar(driverOlia, updateCarMercedes);
+        carService.addDriverToCar(driverAlex, carToyota);
 
         System.out.println("Cars after adding drivers and updating");
         carService.getAll().forEach(System.out::println);
