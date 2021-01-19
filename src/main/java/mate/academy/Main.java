@@ -17,6 +17,7 @@ public class Main {
     public static void main(String[] args) {
         ManufacturerService manufacturerService =
                 (ManufacturerService) injector.getInstance(ManufacturerService.class);
+
         Manufacturer manufacturerBmv = new Manufacturer("BMV", "Bavaria");
         Manufacturer manufacturerMercedes = new Manufacturer("Mercedes", "Germany");
         Manufacturer manufacturerAudi = new Manufacturer("Audi R8", "Germany");
@@ -37,7 +38,7 @@ public class Main {
         manufacturerService.getAll().forEach(System.out::println);
 
         boolean deleteRight = manufacturerService.delete(ID_FOR_DELETION);
-        System.out.println(deleteRight);
+        System.out.println("Deletion manufacture from manufacturers table: " + deleteRight);
 
         System.out.println("After deletion");
         manufacturerService.getAll().forEach(System.out::println);
@@ -46,9 +47,13 @@ public class Main {
 
         Driver driverPetro = new Driver("Petro", "A105326");
         Driver driverOlia = new Driver("Olia", "B532026");
+        Driver driverKate = new Driver("Kate", "AA147896");
+        Driver driverAlex = new Driver("Alex", "AS2365DD");
 
+        driverService.create(driverKate);
         driverService.create(driverPetro);
         driverService.create(driverOlia);
+        driverService.create(driverAlex);
 
         System.out.println("Drivers");
         driverService.getAll().forEach(System.out::println);
@@ -62,47 +67,49 @@ public class Main {
 
         System.out.println("After deletion and updating");
         driverService.getAll().forEach(System.out::println);
-        System.out.println(driverService.get(1L));
 
         CarService carService = (CarService) injector.getInstance(CarService.class);
         Car carAudiR8 = new Car("AudiR8", manufacturerAudi);
-        Car carMercedesBenz = new Car("MercedesBenz", manufacturerMercedes);
+        Car carMercedes = new Car("MercedesBenz", manufacturerMercedes);
         Car carToyota = new Car("Toyota C-HR", manufacturerToyota);
 
         carService.create(carAudiR8);
-        carService.create(carMercedesBenz);
+        carService.create(carMercedes);
         carService.create(carToyota);
 
         System.out.println("Cars");
         carService.getAll().forEach(System.out::println);
 
-        Car updateCarMercedes = carService.get(2L);
+        Car updateCarMercedes = carService.get(carMercedes.getId());
         updateCarMercedes.setModel("Mercedes-AMG");
-        Driver driverKate = new Driver("Kate", "AA147896");
-        driverService.create(driverKate);
 
-        carService.addDriverToCar(driverKate, carAudiR8);
-        carService.addDriverToCar(driverKate, carToyota);
-        carService.addDriverToCar(driverPetro, carAudiR8);
-        carService.addDriverToCar(driverOlia, carAudiR8);
         carService.update(updateCarMercedes);
+        carService.addDriverToCar(driverKate, carAudiR8);
+        carService.addDriverToCar(driverOlia, carAudiR8);
         carService.addDriverToCar(driverKate, updateCarMercedes);
+        carService.addDriverToCar(driverKate, carToyota);
+        carService.addDriverToCar(driverOlia, carToyota);
+        carService.addDriverToCar(driverOlia, updateCarMercedes);
+        carService.addDriverToCar(driverAlex, carToyota);
 
         System.out.println("Cars after adding drivers and updating");
         carService.getAll().forEach(System.out::println);
 
-        carService.removeDriverFromCar(driverPetro, carAudiR8);
-        carService.removeDriverFromCar(driverOlia, carService.get(2L));
+        carService.removeDriverFromCar(driverKate, carAudiR8);
 
         System.out.println("Cars after deletion drivers from cars");
         carService.getAll().forEach(System.out::println);
 
-        List<Car> carByDriverKate = carService.getAllByDriver(driverKate.getId());
-        List<Car> carByDriverPetro = carService.getAllByDriver(driverPetro.getId());
+        boolean delete = carService.delete(1L);
+        System.out.println("Deletion car from cars table: " + delete);
 
-        System.out.println("Lists cars by drivers");
+        List<Car> carByDriverKate = carService.getAllByDriver(driverKate.getId());
+        System.out.println("Lists cars by driver Kate");
         carByDriverKate.forEach(System.out::println);
-        carByDriverPetro.forEach(System.out::println);
+
+        List<Car> carsByDriverOlia = carService.getAllByDriver(driverOlia.getId());
+        System.out.println("Lists cars by driver Olia");
+        carsByDriverOlia.forEach(System.out::println);
     }
 }
 
