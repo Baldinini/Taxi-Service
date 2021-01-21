@@ -10,6 +10,14 @@ public class ConnectionUtil {
     private static final String ROOT = "root";
     private static final String PASSWORD = "1234";
 
+    static {
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException("Can't find SQL Driver", e);
+        }
+    }
+
     public static Connection getConnection() {
         Properties dbProperties = new Properties();
         dbProperties.put("user", ROOT);
