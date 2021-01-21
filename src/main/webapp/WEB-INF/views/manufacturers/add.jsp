@@ -7,7 +7,7 @@
 <body>
 <h1>Provide manufacturer details</h1>
 
-<form method="post" action="${pageContext.request.contextPath}/manufacturer/creation">
+<form method="post" action="${pageContext.request.contextPath}/manufacturers/add">
     Provide manufacturer name <input type="text" name="manufacturer_name">
     Provide manufacturer country <input type="text" name="manufacturer_country">
 

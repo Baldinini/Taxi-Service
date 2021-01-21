@@ -1,4 +1,4 @@
-package mate.academy.controllers;
+package mate.academy.controllers.manufacturer;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -19,6 +19,6 @@ public class DeleteManufacturerController extends HttpServlet {
         String manufacturerId = req.getParameter("id");
         Long id = Long.valueOf(manufacturerId);
         manufacturerService.delete(id);
-        resp.sendRedirect(req.getContextPath() + "/manufacturer/all");
+        resp.sendRedirect(req.getContextPath() + "/manufacturers");
     }
 }

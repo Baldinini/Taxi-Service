@@ -1,5 +1,4 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -54,7 +53,7 @@
             </table>
         </td>
         <td>
-            <a href="${pageContext.request.contextPath}/car/delete?id=${car.id}">Delete</a>
+            <a href="${pageContext.request.contextPath}/cars/delete?id=${car.id}">Delete</a>
         </td>
     </tr>
     </c:forEach>
