@@ -116,7 +116,7 @@
 
     <servlet>
         <servlet-name>loginDriver</servlet-name>
-        <servlet-class>mate.academy.controllers.driver.LoginController</servlet-class>
+        <servlet-class>mate.academy.controllers.LoginController</servlet-class>
     </servlet>
 
     <servlet-mapping>
@@ -133,7 +133,7 @@
         <filter-name>authenticationFilter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
-    
+
     <servlet>
         <servlet-name>carsByDriver</servlet-name>
         <servlet-class>mate.academy.controllers.driver.GetMyCurrentCarsController</servlet-class>

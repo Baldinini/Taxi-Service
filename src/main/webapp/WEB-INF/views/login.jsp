@@ -9,8 +9,8 @@
 <h4 style="color: red">${errorMessage}</h4>
 
 <form action="${pageContext.request.contextPath}/login" method="post">
-    Enter your login <input type="text" name="login"><br>
-    Enter your password <input type="password" name="password">
+    Enter your login <input required type="text" name="login"><br>
+    Enter your password <input required type="password" name="password">
 
     <button type="submit">Login</button><br>
 
