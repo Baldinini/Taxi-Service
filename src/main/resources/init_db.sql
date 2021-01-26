@@ -11,6 +11,9 @@ CREATE TABLE `taxi_service`.`drivers` (
      `name` VARCHAR(225) NOT NULL,
      `licence_number` VARCHAR(225) NOT NULL,
      `is_deleted` TINYINT NOT NULL DEFAULT 0,
+     `login` VARCHAR(225) NOT NULL,
+     `password` VARCHAR(225) NOT NULL,
+UNIQUE INDEX `login_UNIQUE` (`login` ASC) VISIBLE,
 PRIMARY KEY (`id`));
 
 CREATE TABLE `taxi_service`.`cars` (

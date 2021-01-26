@@ -113,4 +113,34 @@
         <servlet-name>deleteCar</servlet-name>
         <url-pattern>/cars/delete</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>loginDriver</servlet-name>
+        <servlet-class>mate.academy.controllers.LoginController</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>loginDriver</servlet-name>
+        <url-pattern>/login</url-pattern>
+    </servlet-mapping>
+    
+    <filter>
+        <filter-name>authenticationFilter</filter-name>
+        <filter-class>mate.academy.web.filters.AuthenticationFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>authenticationFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <servlet>
+        <servlet-name>carsByDriver</servlet-name>
+        <servlet-class>mate.academy.controllers.driver.GetMyCurrentCarsController</servlet-class>
+    </servlet>
+    
+    <servlet-mapping>
+        <servlet-name>carsByDriver</servlet-name>
+        <url-pattern>/drivers/cars</url-pattern>
+    </servlet-mapping>
 </web-app>
