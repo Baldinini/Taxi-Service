@@ -11,15 +11,10 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import mate.academy.lib.Injector;
-import mate.academy.service.DriverService;
 
 public class AuthenticationFilter implements Filter {
     private static final String DRIVER_ID = "driver_id";
-    private static final Injector injector = Injector.getInstance("mate.academy");
     private Set<String> allowedUrls;
-    private final DriverService driverService =
-            (DriverService) injector.getInstance(DriverService.class);
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
